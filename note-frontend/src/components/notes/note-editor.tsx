@@ -37,7 +37,7 @@ type NoteFormValues = z.infer<typeof noteSchema>;
 interface NoteEditorProps {
   isOpen: boolean;
   onOpenChange: (isOpen: boolean) => void;
-  onSave: (data: NoteFormValues) => Promise<void>;
+  onSave: (title: string, content: string) => void;
   note?: Note;
 }
 
@@ -72,7 +72,8 @@ export default function NoteEditor({
 
   const onSubmit = async (data: NoteFormValues) => {
     setIsSubmitting(true);
-    await onSave(data);
+    console.log(data);
+    onSave(data.title, data.content);
     setIsSubmitting(false);
   };
 

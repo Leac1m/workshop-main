@@ -7,6 +7,7 @@ import NoteList from "@/components/notes/note-list";
 import NoteEditor from "@/components/notes/note-editor";
 import type { Note } from "@/lib/types";
 import { useToast } from "@/hooks/use-toast";
+import { useCreateNotes } from '@/hooks/useCreateNotes'
 
 const initialNotes: Note[] = [
   {
@@ -35,6 +36,7 @@ export default function Home() {
   const [isEditorOpen, setIsEditorOpen] = useState(false);
   const [noteToEdit, setNoteToEdit] = useState<Note | undefined>(undefined);
   const { toast } = useToast();
+  const createNotes = useCreateNotes();
 
   useEffect(() => {
     // This ensures the component only renders on the client, avoiding hydration mismatches.
@@ -121,6 +123,11 @@ export default function Home() {
     return null; 
   }
 
+  const handleNotes = (title: string, content: string) => {
+    console.log("Title and content",title, content);
+    createNotes(title, content);
+  }
+
   return (
     <div className="flex flex-col min-h-screen bg-background">
       <Header />
@@ -139,7 +146,7 @@ export default function Home() {
       <NoteEditor
         isOpen={isEditorOpen}
         onOpenChange={setIsEditorOpen}
-        onSave={handleSaveNote}
+        onSave={createNotes}
         note={noteToEdit}
       />
     </div>
